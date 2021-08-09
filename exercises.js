@@ -510,61 +510,191 @@ E. g.: fibonacciGenerator(3), returns [0, 1, 1]
 //   new HouseKeeper("Susie", 29, 0, ["toilet"]),
 // ];
 
-const narrate = console.log;
+// const narrate = console.log;
 
-function Person(name, cult) {
-  this.name = name;
-  this.cult = cult;
-  this.health = 10;
+// function Person(name, cult) {
+//   this.name = name;
+//   this.cult = cult;
+//   this.health = 10;
 
-  this.fight = function (other) {
-    switch (this.cult) {
-      case "satanic":
-        narrate(
-          `${this.name} grabs a knife and cuts through ${other.name}'s chest`
-        );
-        other.takeDamage(3);
-        break;
-      case "christian":
-        narrate(`${this.name} grabs a bible and smacks ${other.name}'s head`);
-        other.takeDamage(5);
-        break;
-      case "pikachurian":
-        narrate(
-          `${this.name} grabs a whip and lashes it against ${other.name}'s back`
-        );
-        other.takeDamage(1);
-        break;
-      default:
-        narrate("The room feels very tense.");
-        break;
-    }
-  };
+//   this.fight = function (other) {
+//     switch (this.cult) {
+//       case "satanic":
+//         narrate(
+//           `${this.name} grabs a knife and cuts through ${other.name}'s chest`
+//         );
+//         other.takeDamage(3);
+//         break;
+//       case "christian":
+//         narrate(`${this.name} grabs a bible and smacks ${other.name}'s head`);
+//         other.takeDamage(5);
+//         break;
+//       case "pikachurian":
+//         narrate(
+//           `${this.name} grabs a whip and lashes it against ${other.name}'s back`
+//         );
+//         other.takeDamage(1);
+//         break;
+//       default:
+//         narrate("The room feels very tense.");
+//         break;
+//     }
+//   };
 
-  this.takeDamage = function (amount) {
-    this.health -= amount;
-    narrate(`    ${this.name} takes ${amount} damage!`);
-    narrate(`    They now have ${this.health} health.`);
-    if (this.health <= 0) {
-      narrate(`    ${this.name} has fallen unconscious!`);
-    }
-  };
+//   this.takeDamage = function (amount) {
+//     this.health -= amount;
+//     narrate(`    ${this.name} takes ${amount} damage!`);
+//     narrate(`    They now have ${this.health} health.`);
+//     if (this.health <= 0) {
+//       narrate(`    ${this.name} has fallen unconscious!`);
+//     }
+//   };
+// }
+
+// // cast
+// var norman = new Person("Norman", "satanic");
+// var yvanna = new Person("Yvanna", "christian");
+// var odette = new Person("Odette", "pikachurian");
+
+// // story
+// narrate(
+//   `Once upon a time, there were three mad people: ${norman.name}, ${yvanna.name}, and ${odette.name}.`
+// );
+// narrate(`They got into a room and instantly hated each other`);
+// norman.fight(odette);
+// odette.fight(norman);
+// odette.fight(yvanna);
+// yvanna.fight(norman);
+// yvanna.fight(norman);
+// narrate(`${norman.name} died!`);
+// narrate(`Everything was chaos.`);
+
+function logError(actual, expected) {
+  console.error(
+    `yours: ${JSON.stringify(actual)} !== expected: ${JSON.stringify(expected)}`
+  );
 }
 
-// cast
-var norman = new Person("Norman", "satanic");
-var yvanna = new Person("Yvanna", "christian");
-var odette = new Person("Odette", "pikachurian");
+function assertEq(actual, expected) {
+  if (typeof expected === "object") {
+    if (Object.keys(expected).length !== Object.keys(actual).length) {
+      logError(actual, expected);
+      return;
+    }
+    Object.keys(expected).forEach((k) => {
+      if (actual[k] !== expected[k]) {
+        logError(actual, expected);
+        return;
+      }
+    });
+    return;
+  }
+  if (actual !== expected) {
+    logError(actual, expected);
+  }
+}
 
-// story
-narrate(
-  `Once upon a time, there were three mad people: ${norman.name}, ${yvanna.name}, and ${odette.name}.`
-);
-narrate(`They got into a room and instantly hated each other`);
-norman.fight(odette);
-odette.fight(norman);
-odette.fight(yvanna);
-yvanna.fight(norman);
-yvanna.fight(norman);
-narrate(`${norman.name} died!`);
-narrate(`Everything was chaos.`);
+assertEq([1, 2, 3], [1, 2, 3]);
+assertEq({ a: 1, b: 2 }, { b: 2, a: 1 });
+assertEq("hey", "hey");
+assertEq(true, true);
+assertEq(3, 3);
+/*
+
+
+
+
+
+
+
+
+
+
+
+
+*/
+
+/*
+arr: an array of numbers
+returns: the sum of the numbers
+*/
+function sum(arr) {
+  let result = 0;
+  for (const num of arr) {
+    result += num;
+  }
+  return result;
+}
+
+// assertEq(sum([1, 2, 3]), 6);
+// assertEq(sum([-5, -4, 4, 5]), 0);
+
+// /*
+// arr: an array of numbers, represented as strings
+// returns: the max of the numbers
+// */
+function max(arr) {
+  let max = -Infinity;
+  for (const str of arr) {
+    const num = parseInt(str);
+    if (num > max) {
+      max = num;
+    }
+  }
+  return max;
+}
+
+// assertEq(max(["1", "2", "3"]), 3);
+// assertEq(max(["-5", "-4", "4", "5"]), 5);
+// assertEq(max(["-5", "-4"]), -4);
+
+// /*
+// arr: a 2d grid of numbers
+// returns: the max of the numbers
+// */
+function gridMax(grid) {
+  let max = -Infinity;
+  for (const row of grid) {
+    for (const num of row) {
+      if (num > max) {
+        max = num;
+      }
+    }
+  }
+  return max;
+}
+
+// assertEq(
+//   gridMax([
+//     [1, 2, 3],
+//     [4, 5, 6],
+//     [7, 8, 9],
+//   ]),
+//   9
+// );
+// assertEq(
+//   gridMax([
+//     [-1, -2, -3],
+//     [-4, -5, -6],
+//     [-7, -8, -9],
+//   ]),
+//   -1
+// );
+
+// /*
+// str: a string of numbers and letters
+// returns: the number of times the letter 'e' is seen
+// */
+
+function whereIsE(str) {
+  let count = 0;
+  for (const char of str) {
+    if (char === "e") {
+      count++;
+    }
+  }
+  return count;
+}
+
+assertEq(whereIsE("hey there"), 3);
+assertEq(whereIsE("ho ho ho"), 0);
